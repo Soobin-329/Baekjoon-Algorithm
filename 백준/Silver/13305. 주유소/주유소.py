@@ -3,21 +3,17 @@
 
 
 import sys
-import copy
 input = sys.stdin.readline
 
 n = int(input())
 dist = list(map(int, input().split()))
-liter_price = list(map(int, input().split()))
+fuel = list(map(int, input().split()))
+cost = 0
+cur = fuel[0]
 
-dp = copy.deepcopy(liter_price)
-
-# 제일 마지막(상관없음, 이 가격으로 기름을 살 일이 없음)이랑 제일 첫(어차피 이 가격으로 기름 사서 다음 도시까지 가야함)은 무시
-for i in range(n-2, 0, -1):
-    dp[i] = min(dp[i], liter_price[i-1])
-
-answer = 0
 for i in range(n-1):
-    answer += dist[i] * dp[i]
+    cost += cur * dist[i]
+    if fuel[i+1] < cur:
+        cur = fuel[i+1]
 
-print(answer)
+print(cost)
